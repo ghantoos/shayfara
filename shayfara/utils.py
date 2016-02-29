@@ -82,6 +82,9 @@ def get_output_file(ifile, opts):
     # set file extension depending on en/de-crypt
     if opts.extension:
         ext = '.%s' % opts.extension
+    # if dest_dir and --in-place, clear extension
+    elif opts.dest_dir and opts.in_place:
+        ext = ''
     elif opts.extension == '':
         ext = ''
     elif opts.encrypt is True:

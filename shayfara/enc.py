@@ -81,8 +81,9 @@ def crypt(opts, password, files):
             skipped += 1
             continue
 
-        # in case --inplace, rename file to original (replace)
-        if opts.inplace:
+        # in case --in-place, rename file to original (replace)
+        if opts.in_place and opts.dest_dir is None:
+            msg.infov('renaming  : %s' % ifile, opts)
             # if out is empty, increment error
             if plugin.rename(ofile, ifile):
                 ret += 1

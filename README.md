@@ -45,10 +45,10 @@ This will generate file in the same directory adding the ```.enc``` extension (e
 
 - To encrypt a directory, replicating the directory tree elswhere:
 ```
-shayfara -e -v test_images/ -D /mybackup/directory -x ''
+shayfara -e -v test_images/ -D /mybackup/directory --in-place
 
 ## extended version
-shayfara --encrypt --verbose test_images/ --dest-dir /mybackup/directory --extension ''
+shayfara --encrypt --verbose test_images/ --dest-dir /mybackup/directory --in-place
 ```
 
 - To decrypt, use the same commands as above, replace ```-e|--encrypt``` with ```-d|--decrypt```.
@@ -80,7 +80,7 @@ optional arguments:
                         (default: recursive)
   -x EXTENSION, --extension EXTENSION
                         add extension the output file names
-  -i, --inplace         rename file to original name (replace)
+  -i, --in-place         rename file to original name (replace)
   -D DEST_DIR, --dest-dir DEST_DIR
                         destination directory (default: same directory)
   -f, --force           force replacing of existing files

@@ -144,3 +144,15 @@ class TestFunctions(unittest.TestCase):
         with self.assertRaises(SystemExit) as cm:
             utils.get_password(args)
         return self.assertEqual(cm.exception.code, expected)
+
+    def test_utils_15_get_output_file_dec(self):
+        ''' UTL-15 | get_output_file: directory and in-place
+            should have no extension
+        '''
+        sys.argv = ['shayfara', '-d', 'test/dirtest/file0',
+                    '-D', '/tmp/foo/', '--in-place']
+        args = opts.getopts()
+        ifile = args.FILES[0]
+        expected = ifile
+        ret = utils.get_output_file(ifile, args)
+        return self.assertEqual(ret, expected)

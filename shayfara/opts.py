@@ -64,9 +64,10 @@ def getopts(arg=None):
                         action='store',
                         help='add extension the output file names')
 
-    parser.add_argument('-i', '--inplace',
+    parser.add_argument('-i', '--in-place',
                         action='store_true',
-                        help='rename file to original name (replace)')
+                        help='use original name - this will replace the '
+                             'original file in case same directory')
 
     parser.add_argument('-D', '--dest-dir',
                         action='store',
