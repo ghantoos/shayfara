@@ -12,7 +12,7 @@ class TestFunctions(unittest.TestCase):
         sys.argv = ['shayfara', '-e', 'test/dirtest/file0']
         args = opts.getopts()
         message = 'test message'
-        expected = 'INFO: %s\n' % message
+        expected = '%s\n' % message
         ret = msg.info(message, args)
         return self.assertEqual(ret, expected)
 
@@ -21,7 +21,7 @@ class TestFunctions(unittest.TestCase):
         sys.argv = ['shayfara', '-e', 'test/dirtest/file0', '-v']
         args = opts.getopts()
         message = 'test message'
-        expected = 'INFO: %s\n' % message
+        expected = '%s\n' % message
         ret = msg.infov(message, args)
         return self.assertEqual(ret, expected)
 

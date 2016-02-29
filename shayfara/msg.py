@@ -21,7 +21,10 @@ def _msg(prefix, msg, ofp=sys.stdout):
     '''
     Display a simple information message with context information.
     '''
-    message = '%s: %s\n' % (prefix, msg)
+    if prefix:
+        message = '%s: %s\n' % (prefix, msg)
+    else:
+        message = '%s\n' % msg
     ofp.write(message)
     return message
 
@@ -30,7 +33,7 @@ def info(msg, args=None, ofp=sys.stdout):
     '''
     Display a simple information message with context information.
     '''
-    message = _msg(prefix='INFO', msg=msg, ofp=ofp)
+    message = _msg(prefix='', msg=msg, ofp=ofp)
     return message
 
 
@@ -40,7 +43,7 @@ def infov(msg, args, ofp=sys.stdout):
     '''
     message = ''
     if args.verbose:
-        message = _msg(prefix='INFO', msg=msg, ofp=ofp)
+        message = _msg(prefix='', msg=msg, ofp=ofp)
     return message
 
 

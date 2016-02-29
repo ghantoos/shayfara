@@ -73,7 +73,7 @@ def updatedir(ofile, directory, filearg, force=None):
 
 
 def createdir(directory):
-    ''' tre creating a directory, output error if failed '''
+    ''' create a directory, output error if failed and exit '''
     if not os.path.isdir(directory):
         try:
             os.makedirs(directory)

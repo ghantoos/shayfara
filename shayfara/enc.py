@@ -62,7 +62,7 @@ def crypt(opts, password, files):
             skipped += 1
             continue
 
-        msg.infov('%sing %s' % (mode, ofile), args=opts)
+        msg.infov('%sing: %s' % (mode, ofile), args=opts)
 
         if opts.decrypt:
             # encrypt file using extension
@@ -88,6 +88,6 @@ def crypt(opts, password, files):
                 ret += 1
                 continue
 
-    msg.infov('%d files %sed' % (len(files) - skipped, mode), args=opts)
+    msg.info('%d files %sed' % (len(files) - skipped, mode), args=opts)
 
     return ret

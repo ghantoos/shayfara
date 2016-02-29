@@ -52,7 +52,7 @@ def load_files(args):
             msg.errn('Skipping entry %s: No such file or directory' % entry)
 
     # print total number of loaded files
-    msg.infov('%d files loaded' % (len(files)), args)
+    msg.info('%d files loaded' % (len(files)), args)
 
     # in case errors were found
     if nerrs:
