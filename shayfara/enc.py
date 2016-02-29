@@ -51,7 +51,8 @@ def crypt(opts, password, files):
 
         # in case new directory is specified using -D|--directory
         if opts.directory:
-            ofile = plugin.updatedir(ofile, opts.directory, opts.FILES[0])
+            ofile = plugin.updatedir(ofile, opts.directory,
+                                     opts.FILES[0], opts.force)
 
         # check if files exists, and force is not specified
         ofile = plugin.exists(ofile, opts)
@@ -61,7 +62,7 @@ def crypt(opts, password, files):
             skipped += 1
             continue
 
-        msg.infov('%s %s' % (mode, ofile), args=opts)
+        msg.infov('%sing %s' % (mode, ofile), args=opts)
 
         if opts.decrypt:
             # encrypt file using extension

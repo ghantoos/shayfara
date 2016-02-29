@@ -50,8 +50,13 @@ def rename(before, after):
         return None
 
 
-def updatedir(ofile, directory, filearg):
+def updatedir(ofile, directory, filearg, force=None):
     ''' update file directory, if -D|--directory is specified '''
+    # force creation of target directory, if it does not exist and --force
+    if not os.path.isdir(directory) and force:
+        msg.info('Creating directory: %s' % directory)
+        createdir(directory)
+
     # output to specified directory, if -D|--directory
     if os.path.isdir(directory):
         # replace source dir with dest dir, keeping the dir structure
@@ -60,16 +65,21 @@ def updatedir(ofile, directory, filearg):
         ofile = ofile.replace(sourcedir, destdir, 1)
         odir = os.path.dirname(ofile)
         # create destination directory if not existing
-        if not os.path.isdir(odir):
-            try:
-                os.makedirs(odir)
-            except:
-                msg.errx('Cannot create sub-dir: permission denied: %s'
-                         % odir)
-        return ofile
-
+        createdir(odir)
     else:
         msg.errx('No such directory: %s' % directory)
+
+    return ofile
+
+
+def createdir(directory):
+    ''' tre creating a directory, output error if failed '''
+    if not os.path.isdir(directory):
+        try:
+            os.makedirs(directory)
+        except:
+            msg.errx('Cannot create sub-dir: permission denied: %s'
+                     % directory)
 
 
 def exists(ofile, opts):

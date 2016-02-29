@@ -112,6 +112,29 @@ class TestFunctions(unittest.TestCase):
             local.updatedir(files[1], args.directory, args.FILES[0])
         return self.assertEqual(cm.exception.code, expected)
 
+    def test_plugins_local_13_updatedir(self):
+        ''' LOC-13 | local: updatedir - force directory '''
+        try:
+            with tempfile.TemporaryDirectory(delete=True) as d:
+                directory = d.name
+        except:
+            directory = tempfile.mkdtemp()
+        shutil.rmtree(directory)
+
+        sys.argv = ['shayfara', '-e', '-r', '-D', directory,
+                    'test/dirtest/', '-f']
+        args = opts.getopts()
+        # get directory file list
+        files = utils.load_files(args)
+        files.sort()
+        expected = '%s/dir1/file1' % directory
+        # update directory
+        ret = local.updatedir(files[0], args.directory,
+                              args.FILES[0], args.force)
+        # cleanup
+        shutil.rmtree(directory)
+        return self.assertEqual(ret, expected)
+
     def test_plugins_local_10_exists(self):
         ''' LOC-10 | local: exists - file exists, return None '''
         filename = 'test/dirtest/file0'
