@@ -1,0 +1,51 @@
+#!/usr/bin/env python3
+#
+# Copyright (c) 2016, Ignace Mouzannar <ghantoos@ghantoos.org>
+#
+# Permission to use, copy, modify, and/or distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+import sys
+
+from shayfara import opts
+from shayfara import utils
+from shayfara import enc
+
+
+def main():
+    '''
+    main
+    '''
+    args = opts.getopts()
+
+    # only run if arguments are given
+    if len(sys.argv) >= 2:
+        try:
+            # get password
+            password = utils.get_password(args)
+            # expand all files from command line
+            files = utils.load_files(args)
+            # process files (encryp/decrypt)
+            ret = enc.crypt(args, password, files)
+        except (KeyboardInterrupt, EOFError):
+            sys.stdout.write('\nExited at user request\n')
+            sys.exit(0)
+
+        sys.exit(ret)
+
+    # else print help
+    else:
+        opts.getopts(['help'])
+
+
+if __name__ == '__main__':
+    main()

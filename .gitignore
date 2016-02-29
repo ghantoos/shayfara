@@ -1,0 +1,5 @@
+*.pyc
+*.swp
+.coverage
+.tox/
+shayfara.egg-info/
