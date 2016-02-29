@@ -34,9 +34,9 @@ def load_files(args):
             # add to file list and check file access
             files.append(entry)
             nerrs += check_file_access(entry)
-        # case argument is a directory and recursive flag
+        # case argument is a directory and not no-recursive flag
         elif os.path.isdir(entry):
-            if args.recursive:
+            if args.no_recursive is not False:
                 for wroot, wdirs, wfiles in os.walk(entry):
                     for wfile in sorted(wfiles, key=str.lower):
                         if wfile in ['.', '..']:

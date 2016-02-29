@@ -19,7 +19,7 @@ class TestFunctions(unittest.TestCase):
 
     def test_utils_01_load_files_skip_dir(self):
         ''' UTL-01 | load_files: skip directory if -r not specified '''
-        sys.argv = ['shayfara', '-e', 'test/dirtest']
+        sys.argv = ['shayfara', '-e', '--no-recursive', 'test/dirtest']
         args = opts.getopts()
         expected = []
         ret = utils.load_files(args)
@@ -27,7 +27,7 @@ class TestFunctions(unittest.TestCase):
 
     def test_utils_02_load_files_skip_dir(self):
         ''' UTL-02 | load_files: skip directory if not exists '''
-        sys.argv = ['shayfara', '-e', '-r', 'foo/']
+        sys.argv = ['shayfara', '-e', 'foo/']
         args = opts.getopts()
         expected = []
         ret = utils.load_files(args)

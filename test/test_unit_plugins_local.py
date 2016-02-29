@@ -74,7 +74,7 @@ class TestFunctions(unittest.TestCase):
         except:
             directory = tempfile.mkdtemp()
 
-        sys.argv = ['shayfara', '-e', '-r', '-D', directory, 'test/dirtest/']
+        sys.argv = ['shayfara', '-e', '-D', directory, 'test/dirtest/']
         args = opts.getopts()
         # get directory file list
         files = utils.load_files(args)
@@ -89,7 +89,7 @@ class TestFunctions(unittest.TestCase):
     def test_plugins_local_08_updatedir_failure_permission(self):
         ''' LOC-08 | local: updatedir - failure permission '''
         directory = '/var/log/'
-        sys.argv = ['shayfara', '-e', '-r', '-D', directory, 'test/dirtest/']
+        sys.argv = ['shayfara', '-e', '-D', directory, 'test/dirtest/']
         args = opts.getopts()
         # get directory file list
         files = utils.load_files(args)
@@ -102,7 +102,7 @@ class TestFunctions(unittest.TestCase):
     def test_plugins_local_09_updatedir_failure_no_dir(self):
         ''' LOC-09 | local: updatedir - failure no such directory '''
         directory = '/foo'
-        sys.argv = ['shayfara', '-e', '-r', '-D', directory, 'test/dirtest/']
+        sys.argv = ['shayfara', '-e', '-D', directory, 'test/dirtest/']
         args = opts.getopts()
         # get directory file list
         files = utils.load_files(args)
@@ -121,7 +121,7 @@ class TestFunctions(unittest.TestCase):
             directory = tempfile.mkdtemp()
         shutil.rmtree(directory)
 
-        sys.argv = ['shayfara', '-e', '-r', '-D', directory,
+        sys.argv = ['shayfara', '-e', '-D', directory,
                     'test/dirtest/', '-f']
         args = opts.getopts()
         # get directory file list

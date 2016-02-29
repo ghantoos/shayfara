@@ -35,39 +35,31 @@ Standard operations:
 shayfara -e test_images/test.jpg
 ```
 
-- To encrypt a file overwriting the original file:
+- To encrypt all files in a directory:
 ```
-shayfara -e -v --inplace test_images/test.jpg
+shayfara -e -v test_images/
 ```
 
-- To encrypt a directory, add ```--recursive|-r``` flag:
+This will generate file in the same directory adding the ```.enc``` extension (e.g. test.jpg.enc). To overwrite the current file, add ```--in-place```, or change the extension by adding ```--extention 'foo'```
+
+
+- To encrypt a directory, replicating the directory tree elswhere:
 ```
-shayfara -e -v -r test_images/ -D /mybackup/directory -x ''
+shayfara -e -v test_images/ -D /mybackup/directory -x ''
 
 ## extended version
-shayfara --encrypt --verbose --recursive test_images/ --dest-dir /mybackup/directory --extension ''
+shayfara --encrypt --verbose test_images/ --dest-dir /mybackup/directory --extension ''
 ```
 
-- To decrypt a file and create a new file:
-```
-shayfara -d test.jpg.enc -v
-```
-
-- To decrypt a directory:
-```
-shayfara -d -v -r /mybackup/directory -D /not/encrypted/dir -x ''
-
-## extended verion
-shayfara --decrypt --verbose --recursive /mybackup/directory --dest-dir /not/encrypted/dir --extension ''
-```
+- To decrypt, use the same commands as above, replace ```-e|--encrypt``` with ```-d|--decrypt```.
 
 Global usage:
 -------------
 
 ```
-usage: shayfara [-h] [-e | -d] [-p PASSWORD_FILE | -P PASSWORD] [-r]
-                [-x EXTENSION] [-i] [-D DEST_DIR] [-f] [-c CIPHER] [-O PLUGIN]
-                [-v] [-V]
+usage: shayfara [-h] [-e | -d] [-p PASSWORD_FILE | -P PASSWORD]
+                [--no-recursive] [-x EXTENSION] [-i] [-D DEST_DIR] [-f]
+                [-c CIPHER] [-O PLUGIN] [-v] [-V]
                 [FILES [FILES ...]]
 
 shayfara is a user-friendly encryption application
@@ -80,21 +72,22 @@ optional arguments:
   -e, --encrypt         run in encrypt mode
   -d, --decrypt         run in decrypt mode
   -p PASSWORD_FILE, --password-file PASSWORD_FILE
-                        file that contains the password, default is to prompt
+                        file that contains the password (default: prompt user)
   -P PASSWORD, --password PASSWORD
-                        password on the command line, not secure, default is
-                        to prompt
-  -r, --recursive       recurse when directories are encountered
+                        password on the command line, not secure (default:
+                        prompt user)
+  --no-recursive        Disable recurse when directories are encountered
+                        (default: recursive)
   -x EXTENSION, --extension EXTENSION
                         add extension the output file names
   -i, --inplace         rename file to original name (replace)
   -D DEST_DIR, --dest-dir DEST_DIR
-                        destination directory. Default is current dir
+                        destination directory (default: same directory)
   -f, --force           force replacing of existing files
   -c CIPHER, --cipher CIPHER
-                        select cipher to use. Default: simplecrypt
+                        select cipher to use (default: simplecrypt)
   -O PLUGIN, --plugin PLUGIN
-                        select output plugin to use. Default: local file
+                        select output plugin to use (default: local file)
   -v, --verbose         level of verbosity
   -V, --version         show program's version number and exit
 ```

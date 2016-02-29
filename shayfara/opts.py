@@ -44,19 +44,21 @@ def getopts(arg=None):
     group2.add_argument('-p', '--password-file',
                         action='store',
                         type=str,
-                        help='file that contains the password, default is to '
-                             'prompt')
+                        help='file that contains the password '
+                             '(default: prompt user)')
 
     group2.add_argument('-P', '--password',
                         action='store',
                         type=str,
-                        help='password on the command line, not secure, '
-                             'default is to prompt')
+                        help='password on the command line, not secure '
+                             '(default: prompt user)')
 
     # other flags
-    parser.add_argument('-r', '--recursive',
-                        action='store_true',
-                        help='recurse when directories are encountered')
+    parser.add_argument('--no-recursive',
+                        action='store_false',
+                        default=True,
+                        help='Disable recurse when directories are encountered'
+                             ' (default: recursive)')
 
     parser.add_argument('-x', '--extension',
                         action='store',
@@ -68,7 +70,7 @@ def getopts(arg=None):
 
     parser.add_argument('-D', '--dest-dir',
                         action='store',
-                        help='destination directory. Default is current dir')
+                        help='destination directory (default: same directory)')
 
     parser.add_argument('-f', '--force',
                         action='store_true',
@@ -77,13 +79,13 @@ def getopts(arg=None):
     parser.add_argument('-c', '--cipher',
                         action='store',
                         default='simplecrypt',
-                        help='select cipher to use. Default: simplecrypt')
+                        help='select cipher to use (default: simplecrypt)')
 
     parser.add_argument('-O', '--plugin',
                         action='store',
                         default='local',
-                        help='select output plugin to use. '
-                             'Default: local file')
+                        help='select output plugin to use '
+                             '(default: local file)')
 
     parser.add_argument('-v', '--verbose',
                         action='count',
