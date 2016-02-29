@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.org/ghantoos/shayfara.svg?branch=master)](https://travis-ci.org/ghantoos/shayfara)
+shayfara [![Build Status](https://travis-ci.org/ghantoos/shayfara.svg?branch=master)](https://travis-ci.org/ghantoos/shayfara)
+========
+
 
 shayfara is a command-line-user-friendly backup encryption tool.
 
@@ -9,18 +11,13 @@ The default cipher uses [simple-crypt](https://github.com/andrewcooke/simple-cry
 Files are stored using extensions or can replace the original files. The user-interface was greatly inspired by [lock_files](https://github.com/jlinoff/lock_files)
 
 
-Install:
---------
+Install / Quick test:
+---------------------
 
-The default cipher is [simple-crypt](https://github.com/andrewcooke/simple-crypt). In order to install it:
+The default cipher is [simple-crypt](https://github.com/andrewcooke/simple-crypt); it will need to be installed.
+
 ```
 pip install simple-crypt
-```
-
-Quick test:
-----------------
-Clone the repository, then:
-```
 cd shayfara
 export PYTHONPATH=$PWD
 ./bin/shayfara
