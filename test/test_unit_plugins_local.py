@@ -81,7 +81,7 @@ class TestFunctions(unittest.TestCase):
         files.sort()
         expected = '%s/dir1/file1' % directory
         # update directory
-        ret = local.updatedir(files[0], args.directory, args.FILES[0])
+        ret = local.updatedir(files[0], args.dest_dir, args.FILES[0])
         # cleanup
         shutil.rmtree(directory)
         return self.assertEqual(ret, expected)
@@ -96,7 +96,7 @@ class TestFunctions(unittest.TestCase):
         expected = 1
         # update directory
         with self.assertRaises(SystemExit) as cm:
-            local.updatedir(files[1], args.directory, args.FILES[0])
+            local.updatedir(files[1], args.dest_dir, args.FILES[0])
         return self.assertEqual(cm.exception.code, expected)
 
     def test_plugins_local_09_updatedir_failure_no_dir(self):
@@ -109,7 +109,7 @@ class TestFunctions(unittest.TestCase):
         expected = 1
         # update directory
         with self.assertRaises(SystemExit) as cm:
-            local.updatedir(files[1], args.directory, args.FILES[0])
+            local.updatedir(files[1], args.dest_dir, args.FILES[0])
         return self.assertEqual(cm.exception.code, expected)
 
     def test_plugins_local_13_updatedir(self):
@@ -129,7 +129,7 @@ class TestFunctions(unittest.TestCase):
         files.sort()
         expected = '%s/dir1/file1' % directory
         # update directory
-        ret = local.updatedir(files[0], args.directory,
+        ret = local.updatedir(files[0], args.dest_dir,
                               args.FILES[0], args.force)
         # cleanup
         shutil.rmtree(directory)

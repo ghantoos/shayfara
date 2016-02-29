@@ -49,9 +49,9 @@ def crypt(opts, password, files):
         # returns empty if file exists and --force not specified
         ofile = utils.get_output_file(ifile, opts)
 
-        # in case new directory is specified using -D|--directory
-        if opts.directory:
-            ofile = plugin.updatedir(ofile, opts.directory,
+        # in case new directory is specified using -D|--dest-dir
+        if opts.dest_dir:
+            ofile = plugin.updatedir(ofile, opts.dest_dir,
                                      opts.FILES[0], opts.force)
 
         # check if files exists, and force is not specified

@@ -43,7 +43,7 @@ shayfara -e -v --inplace test_images/test.jpg
 shayfara -e -v -r test_images/ -D /mybackup/directory -x ''
 
 ## extended version
-shayfara --encrypt --verbose --recursive test_images/ --directory /mybackup/directory --extension ''
+shayfara --encrypt --verbose --recursive test_images/ --dest-dir /mybackup/directory --extension ''
 ```
 
 - To decrypt a file and create a new file:
@@ -56,7 +56,7 @@ shayfara -d test.jpg.enc -v
 shayfara -d -v -r /mybackup/directory -D /not/encrypted/dir -x ''
 
 ## extended verion
-shayfara --decrypt --verbose --recursive /mybackup/directory --directory /not/encrypted/dir --extension ''
+shayfara --decrypt --verbose --recursive /mybackup/directory --dest-dir /not/encrypted/dir --extension ''
 ```
 
 Global usage:

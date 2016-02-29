@@ -66,9 +66,9 @@ def getopts(arg=None):
                         action='store_true',
                         help='rename file to original name (replace)')
 
-    parser.add_argument('-D', '--directory',
+    parser.add_argument('-D', '--dest-dir',
                         action='store',
-                        help='output directory. Default is same directory')
+                        help='destination directory. Default is current dir')
 
     parser.add_argument('-f', '--force',
                         action='store_true',
