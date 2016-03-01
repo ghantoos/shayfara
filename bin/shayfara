@@ -17,7 +17,6 @@
 import sys
 
 from shayfara import opts
-from shayfara import utils
 from shayfara import enc
 
 
@@ -30,12 +29,8 @@ def main():
     # only run if arguments are given
     if len(sys.argv) >= 2:
         try:
-            # get password
-            password = utils.get_password(args)
-            # expand all files from command line
-            files = utils.load_files(args)
             # process files (encryp/decrypt)
-            ret = enc.crypt(args, password, files)
+            ret = enc.crypt(args)
         except (KeyboardInterrupt, EOFError):
             sys.stdout.write('\nExited at user request\n')
             sys.exit(0)

@@ -19,12 +19,12 @@ from shayfara import msg
 from shayfara import utils
 
 
-def crypt(opts, password, files):
+def crypt(args):
     '''
     Encrypt or decrypt the files.
     '''
     # set mode, used by messages (msg.py)
-    if opts.decrypt is True:
+    if args.decrypt is True:
         mode = 'decrypt'
     else:
         mode = 'encrypt'
@@ -34,43 +34,49 @@ def crypt(opts, password, files):
     skipped = 0
 
     # set cipher to use
-    if opts.cipher == 'simplecrypt':
+    if args.cipher == 'simplecrypt':
         from shayfara.ciphers import scrypt
         cipher = scrypt
 
     # set output plug-in to use
-    if opts.plugin == 'local':
+    if args.plugin == 'local':
         from shayfara.plugins import local
-        plugin = local
-    elif opts.plugin == 'dropbox':
+        plugin = local.ShayfaraPlugin()
+    elif args.plugin == 'dropbox':
         from shayfara.plugins import dbox
-        if opts.auth_token:
-            plugin = dbox.ShayfaraPluginDropbox(opts.auth_token)
+        if args.auth_token:
+            plugin = dbox.ShayfaraPlugin(args.auth_token)
         else:
             msg.errx('Authentification token required for dropbox plugin')
+
+    # get password
+    password = utils.get_password(args)
+
+    # expand all files from command line
+    files = utils.load_files(args)
 
     # parse and process files
     for ifile in files:
         # get output file name
         # returns empty if file exists and --force not specified
-        ofile = utils.get_output_file(ifile, opts)
+        ofile = utils.get_output_file(ifile, args)
 
         # in case new directory is specified using -D|--dest-dir
-        if opts.dest_dir:
-            ofile = plugin.updatedir(ofile, opts.dest_dir,
-                                     opts.FILES[0], opts.force)
+        if args.dest_dir:
+            ofile = plugin.updatedir(ofile, args.dest_dir,
+                                     args.FILES[0], args.force)
 
         # check if files exists, and force is not specified
-        ofile = plugin.exists(ofile, opts)
+        ofile = plugin.exists(ofile, args)
 
         # if output file name is empty, skip file
         if ofile is None:
             skipped += 1
             continue
 
-        msg.infov('%sing: %s' % (mode, ofile), args=opts)
+        msg.infov('%sing: %s' % (mode, ofile), args=args)
 
-        if opts.decrypt:
+        if args.decrypt:
             # encrypt file using extension
             output = cipher.decrypt_file(password, ifile)
         else:
@@ -88,13 +94,13 @@ def crypt(opts, password, files):
             continue
 
         # in case --in-place, rename file to original (replace)
-        if opts.in_place and opts.dest_dir is None:
-            msg.infov('renaming  : %s' % ifile, opts)
+        if args.in_place and args.dest_dir is None:
+            msg.infov('renaming  : %s' % ifile, args)
             # if out is empty, increment error
             if plugin.rename(ofile, ifile):
                 ret += 1
                 continue
 
-    msg.info('%d files %sed' % (len(files) - skipped, mode), args=opts)
+    msg.info('%d files %sed' % (len(files) - skipped, mode), args=args)
 
     return ret

@@ -19,73 +19,74 @@ import os
 from shayfara import msg
 
 
-def write(ofile, data):
-    ''' write data to local file '''
-    try:
-        with open(ofile, 'wb') as ofp:
-            ofp.write(data)
-        return ofile
-    except:
-        msg.errn('Error occured while writing file: %s' % ofile)
-        return None
+class ShayfaraPlugin:
 
+    def __init__(self):
+        ''' initialize local plug-in '''
+        pass
 
-def remove(ofile):
-    ''' delete local file '''
-    try:
-        os.remove(ofile)
-        return ofile
-    except:
-        msg.errn('Permission denied: cannot delete file: %s' % ofile)
-        return None
-
-
-def rename(before, after):
-    ''' replace original file with generated file '''
-    try:
-        os.rename(before, after)
-        return after
-    except:
-        msg.errn('Permission denied: cannot write file: %s' % after)
-        return None
-
-
-def updatedir(ofile, directory, filearg, force=None):
-    ''' update file directory, if -D|--directory is specified '''
-    # force creation of target directory, if it does not exist and --force
-    if not os.path.isdir(directory) and force:
-        msg.info('Creating directory: %s' % directory)
-        createdir(directory)
-
-    # output to specified directory, if -D|--directory
-    if os.path.isdir(directory):
-        # replace source dir with dest dir, keeping the dir structure
-        sourcedir = os.path.dirname(filearg)
-        destdir = os.path.normpath(directory)
-        ofile = ofile.replace(sourcedir, destdir, 1)
-        odir = os.path.dirname(ofile)
-        # create destination directory if not existing
-        createdir(odir)
-    else:
-        msg.errx('No such directory: %s' % directory)
-
-    return ofile
-
-
-def createdir(directory):
-    ''' create a directory, output error if failed and exit '''
-    if not os.path.isdir(directory):
+    def write(self, ofile, data):
+        ''' write data to local file '''
         try:
-            os.makedirs(directory)
+            with open(ofile, 'wb') as ofp:
+                ofp.write(data)
+            return ofile
         except:
-            msg.errx('Cannot create sub-dir: permission denied: %s'
-                     % directory)
+            msg.errn('Error occured while writing file: %s' % ofile)
+            return None
 
+    def remove(self, ofile):
+        ''' delete local file '''
+        try:
+            os.remove(ofile)
+            return ofile
+        except:
+            msg.errn('Permission denied: cannot delete file: %s' % ofile)
+            return None
 
-def exists(ofile, opts):
-    ''' check if file already exists '''
-    # in case file already exists, skip
-    if os.path.isfile(ofile) and opts.force is False:
-        msg.errn('Already exists, skipping: %s' % ofile)
-        ofile = None
-    return ofile
+    def rename(self, before, after):
+        ''' replace original file with generated file '''
+        try:
+            os.rename(before, after)
+            return after
+        except:
+            msg.errn('Permission denied: cannot write file: %s' % after)
+            return None
+
+    def updatedir(self, ofile, directory, filearg, force=None):
+        ''' update file directory, if -D|--directory is specified '''
+        # force creation of target directory, if it does not exist and --force
+        if not os.path.isdir(directory) and force:
+            msg.info('Creating directory: %s' % directory)
+            self.createdir(directory)
+
+        # output to specified directory, if -D|--directory
+        if os.path.isdir(directory):
+            # replace source dir with dest dir, keeping the dir structure
+            sourcedir = os.path.dirname(filearg)
+            destdir = os.path.normpath(directory)
+            ofile = ofile.replace(sourcedir, destdir, 1)
+            odir = os.path.dirname(ofile)
+            # create destination directory if not existing
+            self.createdir(odir)
+        else:
+            msg.errx('No such directory: %s' % directory)
+
+        return ofile
+
+    def createdir(self, directory):
+        ''' create a directory, output error if failed and exit '''
+        if not os.path.isdir(directory):
+            try:
+                os.makedirs(directory)
+            except:
+                msg.errx('Cannot create sub-dir: permission denied: %s'
+                         % directory)
+
+    def exists(self, ofile, opts):
+        ''' check if file already exists '''
+        # in case file already exists, skip
+        if os.path.isfile(ofile) and opts.force is False:
+            msg.errn('Already exists, skipping: %s' % ofile)
+            ofile = None
+        return ofile

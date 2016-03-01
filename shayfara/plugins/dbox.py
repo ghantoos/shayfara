@@ -20,7 +20,7 @@ import dropbox
 from shayfara import msg
 
 
-class ShayfaraPluginDropbox:
+class ShayfaraPlugin:
 
     def __init__(self, auth_token):
         ''' initialize dropbox client connection '''

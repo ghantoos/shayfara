@@ -11,13 +11,16 @@ from shayfara.plugins import local
 
 class TestFunctions(unittest.TestCase):
 
+    ''' initialize the local plugin '''
+    plugin = local.ShayfaraPlugin()
+
     def test_plugins_local_01_write(self):
         ''' LOC-01 | local: write file - success '''
         data = b'Some data'
         with tempfile.NamedTemporaryFile(delete=False) as f:
             filename = f.name
         # write data in file
-        ret = local.write(filename, data)
+        ret = self.plugin.write(filename, data)
         # delete file
         os.remove(filename)
         return self.assertEqual(ret, filename)
@@ -27,7 +30,7 @@ class TestFunctions(unittest.TestCase):
         data = 'Some data'
         filename = '/etc/motd'
         # write data in file
-        ret = local.write(filename, data)
+        ret = self.plugin.write(filename, data)
         return self.assertEqual(ret, None)
 
     def test_plugins_local_03_delete(self):
@@ -35,7 +38,7 @@ class TestFunctions(unittest.TestCase):
         with tempfile.NamedTemporaryFile(delete=False) as f:
             filename = f.name
         # delete file
-        ret = local.remove(filename)
+        ret = self.plugin.remove(filename)
         return self.assertEqual(ret, filename)
 
     def test_plugins_local_04_delete_fail(self):
@@ -43,7 +46,7 @@ class TestFunctions(unittest.TestCase):
         # DON'T RUN THIS AS ROOT!!
         filename = '/etc/motd'
         # delete file
-        ret = local.remove(filename)
+        ret = self.plugin.remove(filename)
         return self.assertEqual(ret, None)
 
     def test_plugins_local_05_rename(self):
@@ -52,7 +55,7 @@ class TestFunctions(unittest.TestCase):
             filename = f.name
         # rename file
         newname = filename + 'foo'
-        ret = local.rename(filename, newname)
+        ret = self.plugin.rename(filename, newname)
         # delete file
         os.remove(newname)
         return self.assertEqual(ret, newname)
@@ -63,7 +66,7 @@ class TestFunctions(unittest.TestCase):
         filename = '/etc/motd'
         # rename file
         newname = filename + 'foo'
-        ret = local.rename(filename, newname)
+        ret = self.plugin.rename(filename, newname)
         return self.assertEqual(ret, None)
 
     def test_plugins_local_07_updatedir(self):
@@ -81,7 +84,7 @@ class TestFunctions(unittest.TestCase):
         files.sort()
         expected = '%s/dir1/file1' % directory
         # update directory
-        ret = local.updatedir(files[0], args.dest_dir, args.FILES[0])
+        ret = self.plugin.updatedir(files[0], args.dest_dir, args.FILES[0])
         # cleanup
         shutil.rmtree(directory)
         return self.assertEqual(ret, expected)
@@ -96,7 +99,7 @@ class TestFunctions(unittest.TestCase):
         expected = 1
         # update directory
         with self.assertRaises(SystemExit) as cm:
-            local.updatedir(files[1], args.dest_dir, args.FILES[0])
+            self.plugin.updatedir(files[1], args.dest_dir, args.FILES[0])
         return self.assertEqual(cm.exception.code, expected)
 
     def test_plugins_local_09_updatedir_failure_no_dir(self):
@@ -109,7 +112,7 @@ class TestFunctions(unittest.TestCase):
         expected = 1
         # update directory
         with self.assertRaises(SystemExit) as cm:
-            local.updatedir(files[1], args.dest_dir, args.FILES[0])
+            self.plugin.updatedir(files[1], args.dest_dir, args.FILES[0])
         return self.assertEqual(cm.exception.code, expected)
 
     def test_plugins_local_13_updatedir(self):
@@ -129,8 +132,8 @@ class TestFunctions(unittest.TestCase):
         files.sort()
         expected = '%s/dir1/file1' % directory
         # update directory
-        ret = local.updatedir(files[0], args.dest_dir,
-                              args.FILES[0], args.force)
+        ret = self.plugin.updatedir(files[0], args.dest_dir,
+                                    args.FILES[0], args.force)
         # cleanup
         shutil.rmtree(directory)
         return self.assertEqual(ret, expected)
@@ -141,7 +144,7 @@ class TestFunctions(unittest.TestCase):
         sys.argv = ['shayfara', '-e', filename]
         args = opts.getopts()
         # test if file already exists
-        ret = local.exists(filename, args)
+        ret = self.plugin.exists(filename, args)
         return self.assertEqual(ret, None)
 
     def test_plugins_local_11_exists_force(self):
@@ -150,7 +153,7 @@ class TestFunctions(unittest.TestCase):
         sys.argv = ['shayfara', '-e', '-f', filename]
         args = opts.getopts()
         # test if file already exists
-        ret = local.exists(filename, args)
+        ret = self.plugin.exists(filename, args)
         return self.assertEqual(ret, filename)
 
     def test_plugins_local_12_exists(self):
@@ -159,5 +162,5 @@ class TestFunctions(unittest.TestCase):
         sys.argv = ['shayfara', '-e', filename]
         args = opts.getopts()
         # test if file already exists
-        ret = local.exists(filename, args)
+        ret = self.plugin.exists(filename, args)
         return self.assertEqual(ret, filename)
