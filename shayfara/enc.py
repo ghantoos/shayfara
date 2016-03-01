@@ -42,6 +42,12 @@ def crypt(opts, password, files):
     if opts.plugin == 'local':
         from shayfara.plugins import local
         plugin = local
+    elif opts.plugin == 'dropbox':
+        from shayfara.plugins import dbox
+        if opts.auth_token:
+            plugin = dbox.ShayfaraPluginDropbox(opts.auth_token)
+        else:
+            msg.errx('Authentification token required for dropbox plugin')
 
     # parse and process files
     for ifile in files:

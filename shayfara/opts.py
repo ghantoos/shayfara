@@ -88,6 +88,10 @@ def getopts(arg=None):
                         help='select output plugin to use '
                              '(default: local file)')
 
+    parser.add_argument('-A', '--auth-token',
+                        action='store',
+                        help='enter auth token to use with external plugin')
+
     parser.add_argument('-v', '--verbose',
                         action='count',
                         help='level of verbosity')

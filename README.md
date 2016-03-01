@@ -1,10 +1,17 @@
-shayfara [![Build Status](https://travis-ci.org/ghantoos/shayfara.svg?branch=master)](https://travis-ci.org/ghantoos/shayfara)
-========
+# shayfara [![Build Status](https://travis-ci.org/ghantoos/shayfara.svg?branch=master)](https://travis-ci.org/ghantoos/shayfara)
 
+## Description
 
 shayfara is a command-line-user-friendly backup encryption tool.
 
 The intend of shayfara is to easy the encryption/decryption of files where you do not have the hand to encrypt the filesystem (e.g. remote storage, the "cloud"). It allows a user to encrypt/decrypt files/directories using ciphering/output plugins.
+
+Available plugins are:
+
+- local (write locally)
+- dropbox
+
+See the [plugin section](#plugins) for more information (below).
 
 You can use shayfara to replicate an identical directory-tree and encrypt all the files, making it easy to browse but difficult to see the content. This could be quite useful when saving your pictures on your favorite "cloud" provider, when you are not sure about their privacy engagement (never be sure).
 
@@ -13,8 +20,7 @@ The default cipher uses [simple-crypt](https://github.com/andrewcooke/simple-cry
 Files are stored using extensions or can replace the original files. The user-interface was greatly inspired by [lock_files](https://github.com/jlinoff/lock_files)
 
 
-Install / Quick test:
----------------------
+## Install / Quick test
 
 The default cipher is [simple-crypt](https://github.com/andrewcooke/simple-crypt); it will need to be installed.
 
@@ -27,8 +33,7 @@ export PYTHONPATH=$PWD
 
 Enjoy!
 
-Standard operations:
---------------------
+## Standard operations
 
 - To encrypt a file and create a new file:
 ```
@@ -53,13 +58,35 @@ shayfara --encrypt --verbose test_images/ --dest-dir /mybackup/directory --in-pl
 
 - To decrypt, use the same commands as above, replace ```-e|--encrypt``` with ```-d|--decrypt```.
 
-Global usage:
--------------
+
+## Plugins
+### local
+The local plugin is the default plugin. It will write everything locally.
+
+### dropbox
+The dropbox plugin will need the dropbox python module as well as an auth token in order to work.
+
+To install the dropbox module: ```pip install dropbox```
+
+You will first need to [create a dropbox app](https://www.dropbox.com/developers/apps/create):
+
+- Choose Dropbox API
+- Choose App folder
+- Enter an application name
+
+Then go to your app, and [generate a token](https://blogs.dropbox.com/developers/2014/05/generate-an-access-token-for-your-own-account/).
+
+You can then use shayfara to automatically encrypt and upload your encrypted files to dropbox:
+```
+shayfara -e test/dirtest/ -O dropbox -v -A '<your_token>'
+```
+
+## Global usage
 
 ```
 usage: shayfara [-h] [-e | -d] [-p PASSWORD_FILE | -P PASSWORD]
                 [--no-recursive] [-x EXTENSION] [-i] [-D DEST_DIR] [-f]
-                [-c CIPHER] [-O PLUGIN] [-v] [-V]
+                [-c CIPHER] [-O PLUGIN] [-A AUTH_TOKEN] [-v] [-V]
                 [FILES [FILES ...]]
 
 shayfara is a user-friendly encryption application
@@ -80,7 +107,8 @@ optional arguments:
                         (default: recursive)
   -x EXTENSION, --extension EXTENSION
                         add extension the output file names
-  -i, --in-place         rename file to original name (replace)
+  -i, --in-place        use original name - this will replace the original
+                        file in case same directory
   -D DEST_DIR, --dest-dir DEST_DIR
                         destination directory (default: same directory)
   -f, --force           force replacing of existing files
@@ -88,6 +116,8 @@ optional arguments:
                         select cipher to use (default: simplecrypt)
   -O PLUGIN, --plugin PLUGIN
                         select output plugin to use (default: local file)
+  -A AUTH_TOKEN, --auth-token AUTH_TOKEN
+                        enter auth token to use with external plugin
   -v, --verbose         level of verbosity
   -V, --version         show program's version number and exit
 ```
