@@ -12,7 +12,7 @@ from shayfara.plugins import local
 class TestFunctions(unittest.TestCase):
 
     ''' initialize the local plugin '''
-    plugin = local.ShayfaraPlugin()
+    plugin = local.PluginLocal()
 
     def test_plugins_local_01_write(self):
         ''' LOC-01 | local: write file - success '''

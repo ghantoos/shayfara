@@ -17,13 +17,10 @@
 import os
 
 from shayfara import msg
+from shayfara.plugins import ShayfaraPlugin
 
 
-class ShayfaraPlugin:
-
-    def __init__(self):
-        ''' initialize local plug-in '''
-        pass
+class PluginLocal(ShayfaraPlugin):
 
     def write(self, ofile, data):
         ''' write data to local file '''

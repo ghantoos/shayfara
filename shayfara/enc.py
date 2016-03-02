@@ -41,11 +41,11 @@ def crypt(args):
     # set output plug-in to use
     if args.plugin == 'local':
         from shayfara.plugins import local
-        plugin = local.ShayfaraPlugin()
+        plugin = local.PluginLocal()
     elif args.plugin == 'dropbox':
         from shayfara.plugins import dbox
         if args.auth_token:
-            plugin = dbox.ShayfaraPlugin(args.auth_token)
+            plugin = dbox.PluginDropbox(args.auth_token)
         else:
             msg.errx('Authentification token required for dropbox plugin')
 

@@ -18,13 +18,13 @@ import os
 import dropbox
 
 from shayfara import msg
+from shayfara.plugins import ShayfaraPlugin
 
 
-class ShayfaraPlugin:
+class PluginDropbox(ShayfaraPlugin):
 
     def __init__(self, auth_token):
         ''' initialize dropbox client connection '''
-
         self.dboxclient = dropbox.client.DropboxClient(auth_token)
 
     def write(self, ofile, data):
