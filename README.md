@@ -84,9 +84,9 @@ shayfara -e test/dirtest/ -O dropbox -v -A '<your_token>'
 ## Global usage
 
 ```
-usage: shayfara [-h] [-e | -d] [-p PASSWORD_FILE | -P PASSWORD]
-                [--no-recursive] [-x EXTENSION] [-i] [-D DEST_DIR] [-f]
-                [-c CIPHER] [-O PLUGIN] [-A AUTH_TOKEN] [-v] [-V]
+usage: shayfara [-h] [-e | -d] [-A AUTH_TOKEN] [-c CIPHER] [-D DEST_DIR]
+                [-E EXTENSION] [-f] [-i] [--no-recursive] [-O PLUGIN]
+                [-p PASSWORD_FILE | -P PASSWORD] [-v] [-V]
                 [FILES [FILES ...]]
 
 shayfara is a user-friendly encryption application
@@ -98,26 +98,26 @@ optional arguments:
   -h, --help            show this help message and exit
   -e, --encrypt         run in encrypt mode
   -d, --decrypt         run in decrypt mode
+  -A AUTH_TOKEN, --auth-token AUTH_TOKEN
+                        enter auth token to use with external plugin
+  -c CIPHER, --cipher CIPHER
+                        select cipher to use (default: simplecrypt)
+  -D DEST_DIR, --dest-dir DEST_DIR
+                        destination directory (default: same directory)
+  -E EXTENSION, --extension EXTENSION
+                        add extension the output file names
+  -f, --force           force replacing of existing files
+  -i, --in-place        use original name - this will replace the original
+                        file in case same directory
+  --no-recursive        Disable recurse when directories are encountered
+                        (default: recursive)
+  -O PLUGIN, --plugin PLUGIN
+                        select output plugin to use (default: local file)
   -p PASSWORD_FILE, --password-file PASSWORD_FILE
                         file that contains the password (default: prompt user)
   -P PASSWORD, --password PASSWORD
                         password on the command line, not secure (default:
                         prompt user)
-  --no-recursive        Disable recurse when directories are encountered
-                        (default: recursive)
-  -x EXTENSION, --extension EXTENSION
-                        add extension the output file names
-  -i, --in-place        use original name - this will replace the original
-                        file in case same directory
-  -D DEST_DIR, --dest-dir DEST_DIR
-                        destination directory (default: same directory)
-  -f, --force           force replacing of existing files
-  -c CIPHER, --cipher CIPHER
-                        select cipher to use (default: simplecrypt)
-  -O PLUGIN, --plugin PLUGIN
-                        select output plugin to use (default: local file)
-  -A AUTH_TOKEN, --auth-token AUTH_TOKEN
-                        enter auth token to use with external plugin
   -v, --verbose         level of verbosity
   -V, --version         show program's version number and exit
 ```

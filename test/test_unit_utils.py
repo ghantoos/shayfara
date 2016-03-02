@@ -89,7 +89,7 @@ class TestFunctions(unittest.TestCase):
 
     def test_utils_09_get_output_file(self):
         ''' UTL-09 | get_output_file: user defined extension: .foo '''
-        sys.argv = ['shayfara', '-e', 'test/dirtest/file0', '-x', 'foo']
+        sys.argv = ['shayfara', '-e', 'test/dirtest/file0', '-E', 'foo']
         args = opts.getopts()
         ifile = args.FILES[0]
         expected = '%s.foo' % ifile

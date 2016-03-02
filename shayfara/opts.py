@@ -39,6 +39,45 @@ def getopts(arg=None):
                         action='store_true',
                         help='run in decrypt mode')
 
+    # parser: all regular flags
+    parser.add_argument('-A', '--auth-token',
+                        action='store',
+                        help='enter auth token to use with external plugin')
+
+    parser.add_argument('-c', '--cipher',
+                        action='store',
+                        default='simplecrypt',
+                        help='select cipher to use (default: simplecrypt)')
+
+    parser.add_argument('-D', '--dest-dir',
+                        action='store',
+                        help='destination directory (default: same directory)')
+
+    parser.add_argument('-E', '--extension',
+                        action='store',
+                        help='add extension the output file names')
+
+    parser.add_argument('-f', '--force',
+                        action='store_true',
+                        help='force replacing of existing files')
+
+    parser.add_argument('-i', '--in-place',
+                        action='store_true',
+                        help='use original name - this will replace the '
+                             'original file in case same directory')
+
+    parser.add_argument('--no-recursive',
+                        action='store_false',
+                        default=True,
+                        help='Disable recurse when directories are encountered'
+                             ' (default: recursive)')
+
+    parser.add_argument('-O', '--plugin',
+                        action='store',
+                        default='local',
+                        help='select output plugin to use '
+                             '(default: local file)')
+
     # group2: provide password file or command-line
     group2 = parser.add_mutually_exclusive_group()
     group2.add_argument('-p', '--password-file',
@@ -52,45 +91,6 @@ def getopts(arg=None):
                         type=str,
                         help='password on the command line, not secure '
                              '(default: prompt user)')
-
-    # other flags
-    parser.add_argument('--no-recursive',
-                        action='store_false',
-                        default=True,
-                        help='Disable recurse when directories are encountered'
-                             ' (default: recursive)')
-
-    parser.add_argument('-x', '--extension',
-                        action='store',
-                        help='add extension the output file names')
-
-    parser.add_argument('-i', '--in-place',
-                        action='store_true',
-                        help='use original name - this will replace the '
-                             'original file in case same directory')
-
-    parser.add_argument('-D', '--dest-dir',
-                        action='store',
-                        help='destination directory (default: same directory)')
-
-    parser.add_argument('-f', '--force',
-                        action='store_true',
-                        help='force replacing of existing files')
-
-    parser.add_argument('-c', '--cipher',
-                        action='store',
-                        default='simplecrypt',
-                        help='select cipher to use (default: simplecrypt)')
-
-    parser.add_argument('-O', '--plugin',
-                        action='store',
-                        default='local',
-                        help='select output plugin to use '
-                             '(default: local file)')
-
-    parser.add_argument('-A', '--auth-token',
-                        action='store',
-                        help='enter auth token to use with external plugin')
 
     parser.add_argument('-v', '--verbose',
                         action='count',
