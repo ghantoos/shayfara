@@ -62,9 +62,12 @@ def crypt(args):
         ofile = utils.get_output_file(ifile, args)
 
         # in case new directory is specified using -D|--dest-dir
+        # create directory in --force, skip if dry-run
+        if args.force is True and args.dry_run is False:
+            plugin.createdir(args.dest_dir)
+        # update output file path
         if args.dest_dir:
-            ofile = plugin.updatedir(ofile, args.dest_dir,
-                                     args.FILES[0], args.force)
+            ofile = utils.updatedir(ofile, args.dest_dir, args.FILES[0])
 
         # check if files exists, and force is not specified
         ofile = plugin.exists(ofile, args)
@@ -74,6 +77,7 @@ def crypt(args):
             skipped += 1
             continue
 
+        # write action (encrypting/decrypting) if verbose
         msg.infov('%sing: %s' % (mode, ofile), args=args)
 
         if args.decrypt:
@@ -86,9 +90,12 @@ def crypt(args):
         # write output using proper plug-in
         # if out is empty, increment error
         if output:
-            if not plugin.write(ofile, output):
-                skipped += 1
-                continue
+            # skip if dry-run
+            if args.dry_run is False:
+                # write to file, increment skipped if error occurs
+                if not plugin.write(ofile, output):
+                    skipped += 1
+                    continue
         else:
             skipped += 1
             continue
@@ -96,11 +103,17 @@ def crypt(args):
         # in case --in-place, rename file to original (replace)
         if args.in_place and args.dest_dir is None:
             msg.infov('renaming  : %s' % ifile, args)
-            # if out is empty, increment error
-            if plugin.rename(ofile, ifile):
-                ret += 1
-                continue
+            # skip if dry-run
+            if args.dry_run is False:
+                # if out is empty, increment error
+                if plugin.rename(ofile, ifile):
+                    ret += 1
+                    continue
 
-    msg.info('%d files %sed' % (len(files) - skipped, mode), args=args)
+    if args.dry_run is False:
+        msg.info('%d files %sed' % (len(files) - skipped, mode), args=args)
+    else:
+        msg.info('%d files %sed (DRY RUN)'
+                 % (len(files) - skipped, mode), args=args)
 
     return ret

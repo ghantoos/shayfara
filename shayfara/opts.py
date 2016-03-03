@@ -72,6 +72,10 @@ def getopts(arg=None):
                         help='Disable recurse when directories are encountered'
                              ' (default: recursive)')
 
+    parser.add_argument('-n', '--dry-run',
+                        action='store_true',
+                        help='perform a trial run with no changes made')
+
     parser.add_argument('-O', '--plugin',
                         action='store',
                         default='local',

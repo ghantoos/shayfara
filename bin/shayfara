@@ -17,6 +17,7 @@
 import sys
 
 from shayfara import opts
+from shayfara import msg
 from shayfara import enc
 
 
@@ -29,10 +30,17 @@ def main():
     # only run if arguments are given
     if len(sys.argv) >= 2:
         try:
+            # dry run warning
+            if args.dry_run is True:
+                msg.info('** Running in dry-run mode. '
+                         'No changes will be applied **')
             # process files (encryp/decrypt)
             ret = enc.crypt(args)
         except (KeyboardInterrupt, EOFError):
-            sys.stdout.write('\nExited at user request\n')
+            if args.dry_run:
+                sys.stdout.write('\nExited at user request (DRY RUN)\n')
+            else:
+                sys.stdout.write('\nExited at user request\n')
             sys.exit(0)
 
         sys.exit(ret)

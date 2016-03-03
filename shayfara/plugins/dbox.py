@@ -63,16 +63,6 @@ class PluginDropbox(ShayfaraPlugin):
             msg.errn('Permission denied: cannot write file: %s' % after)
             return None
 
-    def updatedir(self, ofile, directory, filearg, force=None):
-        ''' update file directory, if -D|--directory is specified '''
-        # output to specified directory, if -D|--directory
-        # replace source dir with dest dir, keeping the dir structure
-        sourcedir = os.path.dirname(filearg)
-        destdir = os.path.normpath(directory)
-        ofile = ofile.replace(sourcedir, destdir, 1)
-
-        return ofile
-
     def createdir(self, directory):
         ''' create a directory, output error if failed and exit '''
         try:

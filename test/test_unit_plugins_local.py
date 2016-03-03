@@ -1,11 +1,9 @@
 import unittest
 import os
 import sys
-import shutil
 import tempfile
 
 from shayfara import opts
-from shayfara import utils
 from shayfara.plugins import local
 
 
@@ -68,75 +66,6 @@ class TestFunctions(unittest.TestCase):
         newname = filename + 'foo'
         ret = self.plugin.rename(filename, newname)
         return self.assertEqual(ret, None)
-
-    def test_plugins_local_07_updatedir(self):
-        ''' LOC-07 | local: updatedir - success '''
-        try:
-            with tempfile.TemporaryDirectory(delete=False) as d:
-                directory = d.name
-        except:
-            directory = tempfile.mkdtemp()
-
-        sys.argv = ['shayfara', '-e', '-D', directory, 'test/dirtest/']
-        args = opts.getopts()
-        # get directory file list
-        files = utils.load_files(args)
-        files.sort()
-        expected = '%s/dir1/file1' % directory
-        # update directory
-        ret = self.plugin.updatedir(files[0], args.dest_dir, args.FILES[0])
-        # cleanup
-        shutil.rmtree(directory)
-        return self.assertEqual(ret, expected)
-
-    def test_plugins_local_08_updatedir_failure_permission(self):
-        ''' LOC-08 | local: updatedir - failure permission '''
-        directory = '/var/log/'
-        sys.argv = ['shayfara', '-e', '-D', directory, 'test/dirtest/']
-        args = opts.getopts()
-        # get directory file list
-        files = utils.load_files(args)
-        expected = 1
-        # update directory
-        with self.assertRaises(SystemExit) as cm:
-            self.plugin.updatedir(files[1], args.dest_dir, args.FILES[0])
-        return self.assertEqual(cm.exception.code, expected)
-
-    def test_plugins_local_09_updatedir_failure_no_dir(self):
-        ''' LOC-09 | local: updatedir - failure no such directory '''
-        directory = '/foo'
-        sys.argv = ['shayfara', '-e', '-D', directory, 'test/dirtest/']
-        args = opts.getopts()
-        # get directory file list
-        files = utils.load_files(args)
-        expected = 1
-        # update directory
-        with self.assertRaises(SystemExit) as cm:
-            self.plugin.updatedir(files[1], args.dest_dir, args.FILES[0])
-        return self.assertEqual(cm.exception.code, expected)
-
-    def test_plugins_local_13_updatedir(self):
-        ''' LOC-13 | local: updatedir - force directory '''
-        try:
-            with tempfile.TemporaryDirectory(delete=True) as d:
-                directory = d.name
-        except:
-            directory = tempfile.mkdtemp()
-        shutil.rmtree(directory)
-
-        sys.argv = ['shayfara', '-e', '-D', directory,
-                    'test/dirtest/', '-f']
-        args = opts.getopts()
-        # get directory file list
-        files = utils.load_files(args)
-        files.sort()
-        expected = '%s/dir1/file1' % directory
-        # update directory
-        ret = self.plugin.updatedir(files[0], args.dest_dir,
-                                    args.FILES[0], args.force)
-        # cleanup
-        shutil.rmtree(directory)
-        return self.assertEqual(ret, expected)
 
     def test_plugins_local_10_exists(self):
         ''' LOC-10 | local: exists - file exists, return None '''

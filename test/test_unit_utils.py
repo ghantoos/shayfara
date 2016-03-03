@@ -156,3 +156,16 @@ class TestFunctions(unittest.TestCase):
         expected = ifile
         ret = utils.get_output_file(ifile, args)
         return self.assertEqual(ret, expected)
+
+    def test_utils_16_updatedir(self):
+        ''' UTL-16 | local: updatedir - success '''
+        directory = '/tmp/foo'
+        sys.argv = ['shayfara', '-e', '-D', directory, 'test/dirtest/']
+        args = opts.getopts()
+        # get directory file list
+        files = utils.load_files(args)
+        files.sort()
+        expected = '%s/dir1/file1' % directory
+        # update directory
+        ret = utils.updatedir(files[0], args.dest_dir, args.FILES[0])
+        return self.assertEqual(ret, expected)

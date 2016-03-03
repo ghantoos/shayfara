@@ -50,31 +50,11 @@ class PluginLocal(ShayfaraPlugin):
             msg.errn('Permission denied: cannot write file: %s' % after)
             return None
 
-    def updatedir(self, ofile, directory, filearg, force=None):
-        ''' update file directory, if -D|--directory is specified '''
-        # force creation of target directory, if it does not exist and --force
-        if not os.path.isdir(directory) and force:
-            msg.info('Creating directory: %s' % directory)
-            self.createdir(directory)
-
-        # output to specified directory, if -D|--directory
-        if os.path.isdir(directory):
-            # replace source dir with dest dir, keeping the dir structure
-            sourcedir = os.path.dirname(filearg)
-            destdir = os.path.normpath(directory)
-            ofile = ofile.replace(sourcedir, destdir, 1)
-            odir = os.path.dirname(ofile)
-            # create destination directory if not existing
-            self.createdir(odir)
-        else:
-            msg.errx('No such directory: %s' % directory)
-
-        return ofile
-
     def createdir(self, directory):
         ''' create a directory, output error if failed and exit '''
         if not os.path.isdir(directory):
             try:
+                msg.info('Creating directory: %s' % directory)
                 os.makedirs(directory)
             except:
                 msg.errx('Cannot create sub-dir: permission denied: %s'

@@ -52,7 +52,10 @@ def load_files(args):
             msg.errn('Skipping entry %s: No such file or directory' % entry)
 
     # print total number of loaded files
-    msg.info('%d files loaded' % (len(files)), args)
+    if args.dry_run is False:
+        msg.info('%d files loaded' % (len(files)), args)
+    else:
+        msg.info('%d files loaded (DRY RUN)' % (len(files)), args)
 
     # in case errors were found
     if nerrs:
@@ -95,6 +98,16 @@ def get_output_file(ifile, opts):
     # concatenate original filename and extension
     ofile = ifile + ext
 
+    return ofile
+
+
+def updatedir(ofile, directory, filearg):
+    ''' update file directory, if -D|--directory is specified '''
+    # replace source dir with dest dir, keeping the dir structure
+    sourcedir = os.path.dirname(filearg)
+    destdir = '%s/' % os.path.normpath(directory)
+    ofile = ofile.replace(sourcedir, destdir, 1)
+    ofile = os.path.normpath(ofile)
     return ofile
 
 

@@ -45,13 +45,6 @@ class ShayfaraPlugin:
         '''
         return None
 
-    def updatedir(self, ofile, directory, filearg, force=None):
-        ''' update file directory, if -D|--directory is specified
-            - return 'ofile' if write successful
-            - exit using msg.errx() if failed
-        '''
-        msg.errx('You should not be seing this message: %s' % directory)
-
     def createdir(self, directory):
         ''' create a directory, output error if failed and exit
             - return 'ofile' if write successful
