@@ -61,7 +61,7 @@ def getopts(arg=None):
                         action='store_true',
                         help='force replacing of existing files')
 
-    parser.add_argument('-i', '--in-place',
+    parser.add_argument('-i', '--in-place', '--no-extension',
                         action='store_true',
                         help='use original name - this will replace the '
                              'original file in case same directory')

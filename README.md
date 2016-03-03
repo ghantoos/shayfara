@@ -107,7 +107,8 @@ optional arguments:
   -E EXTENSION, --extension EXTENSION
                         add extension the output file names
   -f, --force           force replacing of existing files
-  -i, --in-place        use original name - this will replace the original
+  -i, --in-place, --no-extension
+                        use original name - this will replace the original
                         file in case same directory
   --no-recursive        Disable recurse when directories are encountered
                         (default: recursive)
