@@ -22,11 +22,16 @@ from shayfara.plugins import ShayfaraPlugin
 
 class PluginLocal(ShayfaraPlugin):
 
-    def write(self, ofile, data):
+    def write(self, ofile, data, ifile):
         ''' write data to local file '''
         try:
+            # get original file system status using stat(1)
+            stat = os.stat(ifile)
+            # write file to disk
             with open(ofile, 'wb') as ofp:
                 ofp.write(data)
+            # restore original file system status
+            os.chmod(ofile, stat.st_mode)
             return ofile
         except:
             msg.errn('Error occured while writing file: %s' % ofile)

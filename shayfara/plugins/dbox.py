@@ -27,7 +27,7 @@ class PluginDropbox(ShayfaraPlugin):
         ''' initialize dropbox client connection '''
         self.dboxclient = dropbox.client.DropboxClient(auth_token)
 
-    def write(self, ofile, data):
+    def write(self, ofile, data, ifile=None):
         ''' write data to local file '''
         try:
             # write temporary local file

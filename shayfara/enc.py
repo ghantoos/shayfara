@@ -93,7 +93,7 @@ def crypt(args):
             # skip if dry-run
             if args.dry_run is False:
                 # write to file, increment skipped if error occurs
-                if not plugin.write(ofile, output):
+                if not plugin.write(ofile, output, ifile):
                     skipped += 1
                     continue
         else:

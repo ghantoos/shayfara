@@ -24,7 +24,7 @@ class ShayfaraPlugin:
         ''' initialize local plug-in '''
         pass
 
-    def write(self, ofile, data):
+    def write(self, ofile, data, ifile=None):
         ''' write data to local file
             - return 'ofile' if write successful
             - return None if failed

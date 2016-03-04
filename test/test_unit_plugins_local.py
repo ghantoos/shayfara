@@ -14,21 +14,23 @@ class TestFunctions(unittest.TestCase):
 
     def test_plugins_local_01_write(self):
         ''' LOC-01 | local: write file - success '''
+        ifile = 'test/dirtest/file0'
         data = b'Some data'
         with tempfile.NamedTemporaryFile(delete=False) as f:
             filename = f.name
         # write data in file
-        ret = self.plugin.write(filename, data)
+        ret = self.plugin.write(filename, data, ifile)
         # delete file
         os.remove(filename)
         return self.assertEqual(ret, filename)
 
     def test_plugins_local_02_write_fail(self):
         ''' LOC-02 | local: write file - failure '''
+        ifile = 'test/dirtest/file0'
         data = 'Some data'
         filename = '/etc/motd'
         # write data in file
-        ret = self.plugin.write(filename, data)
+        ret = self.plugin.write(filename, data, ifile)
         return self.assertEqual(ret, None)
 
     def test_plugins_local_03_delete(self):
@@ -93,3 +95,17 @@ class TestFunctions(unittest.TestCase):
         # test if file already exists
         ret = self.plugin.exists(filename, args)
         return self.assertEqual(ret, filename)
+
+    def test_plugins_local_13_write(self):
+        ''' LOC-01 | local: write file - stat mode maintained '''
+        ifile = 'test/dirtest/file0'
+        data = b'Some data'
+        with tempfile.NamedTemporaryFile(delete=False) as f:
+            ofile = f.name
+        # write data in file
+        self.plugin.write(ofile, data, ifile)
+        stat_ifile = os.stat(ifile).st_mode
+        stat_ofile = os.stat(ofile).st_mode
+        # delete file
+        os.remove(ofile)
+        return self.assertEqual(stat_ifile, stat_ofile)
