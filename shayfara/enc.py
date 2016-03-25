@@ -14,7 +14,7 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-
+from os import stat, path
 from shayfara import msg
 from shayfara import utils
 
@@ -49,6 +49,19 @@ def crypt(args):
         else:
             msg.errx('Authentification token required for dropbox plugin')
 
+    # set database to use
+    if args.database == 'plaintext':
+        from shayfara.databases import shelve
+        # get database output directory
+        if not args.dest_dir:
+            dbdir = path.dirname(path.abspath(args.FILES[0]))
+        else:
+            dbdir = args.dest_dir
+        # create destination directory if it does not exist
+        plugin.createdir(dbdir)
+        # init the database
+        db = shelve.DBShelve(dbdir)
+
     # get password
     password = utils.get_password(args)
 
@@ -62,9 +75,6 @@ def crypt(args):
         ofile = utils.get_output_file(ifile, args)
 
         # in case new directory is specified using -D|--dest-dir
-        # create directory in --force, skip if dry-run
-        if args.force is True and args.dry_run is False:
-            plugin.createdir(args.dest_dir)
         # update output file path
         if args.dest_dir:
             ofile = utils.updatedir(ofile, args.dest_dir, args.FILES[0])
@@ -93,7 +103,12 @@ def crypt(args):
             # skip if dry-run
             if args.dry_run is False:
                 # write to file, increment skipped if error occurs
-                if not plugin.write(ofile, output, ifile):
+                if plugin.write(ofile, output, ifile):
+                    # store target file name and stat of original file in
+                    # database, if encryption succeeded.
+                    db.put(ofile, stat(ifile))
+                else:
+                    # in case write failed, increment skipped counter
                     skipped += 1
                     continue
         else:
@@ -115,5 +130,9 @@ def crypt(args):
     else:
         msg.info('%d files %sed (DRY RUN)'
                  % (len(files) - skipped, mode), args=args)
+
+    # write file database
+    if args.database:
+        db.close()
 
     return ret
