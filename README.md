@@ -84,8 +84,9 @@ shayfara -e test/dirtest/ -O dropbox -v -A '<your_token>'
 ## Global usage
 
 ```
-usage: shayfara [-h] [-e | -d] [-A AUTH_TOKEN] [-c CIPHER] [-D DEST_DIR]
-                [-E EXTENSION] [-f] [-i] [--no-recursive] [-O PLUGIN]
+usage: shayfara [-h] [-e | -d] [-A AUTH_TOKEN] [-c CIPHER]
+                [--database DATABASE] [-D DEST_DIR] [-E EXTENSION] [-f] [-i]
+                [--no-recursive] [-n] [-O PLUGIN]
                 [-p PASSWORD_FILE | -P PASSWORD] [-v] [-V]
                 [FILES [FILES ...]]
 
@@ -102,6 +103,7 @@ optional arguments:
                         enter auth token to use with external plugin
   -c CIPHER, --cipher CIPHER
                         select cipher to use (default: simplecrypt)
+  --database DATABASE   select database to use (default: None)
   -D DEST_DIR, --dest-dir DEST_DIR
                         destination directory (default: same directory)
   -E EXTENSION, --extension EXTENSION
@@ -112,6 +114,7 @@ optional arguments:
                         file in case same directory
   --no-recursive        Disable recurse when directories are encountered
                         (default: recursive)
+  -n, --dry-run         perform a trial run with no changes made
   -O PLUGIN, --plugin PLUGIN
                         select output plugin to use (default: local file)
   -p PASSWORD_FILE, --password-file PASSWORD_FILE

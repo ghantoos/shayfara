@@ -49,6 +49,11 @@ def getopts(arg=None):
                         default='simplecrypt',
                         help='select cipher to use (default: simplecrypt)')
 
+    parser.add_argument('--database',
+                        action='store',
+                        default=None,
+                        help='select database to use (default: None)')
+
     parser.add_argument('-D', '--dest-dir',
                         action='store',
                         help='destination directory (default: same directory)')
