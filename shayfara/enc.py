@@ -79,6 +79,10 @@ def crypt(args):
         if args.dest_dir:
             ofile = utils.updatedir(ofile, args.dest_dir, args.FILES[0])
 
+        # create directory in --force, skip if dry-run
+        if args.force is True and args.dry_run is False:
+            plugin.createdir(path.dirname(path.abspath(ofile)))
+
         # check if files exists, and force is not specified
         ofile = plugin.exists(ofile, args)
 
